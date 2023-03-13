@@ -48,6 +48,29 @@ button {
   transition: border-color 0.25s;
 }
 
+#title {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 4rem;
+  color: #0e0e18;
+  text-align: center;
+  text-shadow: 4px 4px 0 #1421e0;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+#display {
+  width: 50%;
+  margin: 1em auto;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  text-align: center;
+  background-color: #000;
+  color: #0f0;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: inset 0px 0px 10px #0f0, 0px 0px 10px #0f0;
+}
+
 .drum-pad-column {
   display: flex;
   justify-content: center;
@@ -56,13 +79,17 @@ button {
 .drum-pad {
   width: 100px;
   height: 100px;
-  border: 1px solid #ccc;
+  border: 2px solid #1a1919;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 24px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.drum-pad-active {
+  background-color: rgb(66, 66, 175);
 }
 
 button:hover {

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 function DrumMachine() {
+  const [display, setDisplay] = useState('');
+
   const drumPads = [
     {
       id: 'Q',
@@ -50,66 +52,101 @@ function DrumMachine() {
     },
   ];
 
-  //   console.log(drumPads[0].id);
-  //   console.log(drumPads.find((drum) => drum.id === 'E'));
-  const playSound = (src) => {
-    const sound = new Audio(src);
-    sound.play();
-  };
-
   const handleClick = (event) => {
     const id = event.target.id;
     const pad = drumPads.find((pad) => pad.id === id);
-    console.log(pad);
+    if (pad) {
+      const padElement = document.getElementById(pad.id);
+      padElement.classList.add('drum-pad-active');
+      setTimeout(() => {
+        padElement.classList.remove('drum-pad-active');
+      }, 100);
+      const audio = document.querySelector(`#${pad.id} audio`);
+      audio.currentTime = 0;
+      audio.play();
+      setDisplay(pad.name);
+    }
   };
+
+  const handleKeyboard = (event) => {
+    const id = event.key.toUpperCase();
+    const pad = drumPads.find((pad) => pad.id === id);
+    if (pad) {
+      const padElement = document.getElementById(pad.id);
+      padElement.classList.add('drum-pad-active');
+      setTimeout(() => {
+        padElement.classList.remove('drum-pad-active');
+      }, 100);
+      const audio = document.querySelector(`#${pad.id} audio`);
+      audio.currentTime = 0;
+      audio.play();
+      setDisplay(pad.name);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyboard);
+    return () => {
+      document.removeEventListener('keydown', handleKeyboard);
+    };
+  }, []);
 
   return (
     <div>
+      <div>
+        <h1 id='title'>Drum Machine in React</h1>
+      </div>
       <Container fluid id='drum-machine'>
         <Row>
           <Col>
             <div className='mb-2' id='display'>
-              Test
+              {display}
             </div>
           </Col>
         </Row>
         <Row className='mt-2 mb-2'>
           <Col className='drum-pad-column'>
-            <div className='drum-pad' id='Q' onClick={handleClick}>
-              Q
-            </div>
-            <div className='drum-pad' id='W'>
-              W
-            </div>
-            <div className='drum-pad' id='E'>
-              E
-            </div>
+            {drumPads.slice(0, 3).map((pad) => (
+              <div
+                className='drum-pad'
+                id={pad.id}
+                key={pad.id}
+                onClick={handleClick}
+              >
+                {pad.id}
+                <audio className='clip' id={`${pad.id}`} src={pad.src}></audio>
+              </div>
+            ))}
           </Col>
         </Row>
         <Row className='mt-2 mb-2'>
           <Col className='drum-pad-column'>
-            <div className='drum-pad' id='A'>
-              A
-            </div>
-            <div className='drum-pad' id='S'>
-              S
-            </div>
-            <div className='drum-pad' id='D'>
-              D
-            </div>
+            {drumPads.slice(3, 6).map((pad) => (
+              <div
+                className='drum-pad'
+                id={pad.id}
+                key={pad.id}
+                onClick={handleClick}
+              >
+                {pad.id}
+                <audio className='clip' id={`${pad.id}`} src={pad.src}></audio>
+              </div>
+            ))}
           </Col>
         </Row>
         <Row className='mt-2 mb-2'>
           <Col className='drum-pad-column'>
-            <div className='drum-pad' id='Z'>
-              Z
-            </div>
-            <div className='drum-pad' id='X'>
-              X
-            </div>
-            <div className='drum-pad' id='C'>
-              C
-            </div>
+            {drumPads.slice(6, 9).map((pad) => (
+              <div
+                className='drum-pad'
+                id={pad.id}
+                key={pad.id}
+                onClick={handleClick}
+              >
+                {pad.id}
+                <audio className='clip' id={`${pad.id}`} src={pad.src}></audio>
+              </div>
+            ))}
           </Col>
         </Row>
       </Container>
